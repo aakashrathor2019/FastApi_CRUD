@@ -32,6 +32,7 @@ async def add(data: Product):
 def find_one(id : int):
     for p in products:
         if p.id == id:
+            print(f"Id of Product {id}")
             return p
     raise HTTPException(status_code=404, detail="Not found")
 
@@ -41,6 +42,7 @@ def update(id:int, data:Product):
         if p.id == id:
             data.id  = id
             products[index] = data
+            print(f"Data:{data}")
             return data
     raise HTTPException(status_code=404,detail='Not found')
 
@@ -48,6 +50,7 @@ def update(id:int, data:Product):
 def delete(id:int):
     for index, p in enumerate(products):
         if p.id == id:
+            print(f"Id of delete request {id}")
             return products.pop(index)
     raise HTTPException(status_code=404, detail='Not found')
 
