@@ -6,6 +6,11 @@
 
 <body>
     <h3>Upload File</h3>
-    <form action=""
+    <form action="{{ request.url_for('update', id=product.id) }}"  method="post" enctype="multipart/form-data">
+        <label for="file">Select File</label>
+        <input type="file" id="file" name="file" accept=".txt, .pdf, .jpg" multiple>
+        <br>
+        <button type="submit" value="Upload">Upload</button>
+    </form>
 </body>
 </html>

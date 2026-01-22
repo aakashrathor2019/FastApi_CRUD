@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, UploadFile
 from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -36,7 +36,7 @@ def find_one(id : int):
             return p
     raise HTTPException(status_code=404, detail="Not found")
 
-@app.put('/update/{id}', response_model=Product)
+@app.put('/update/{id}', name= 'update',response_model=Product)
 def update(id:int, data:Product):
     for index, p in enumerate(products):
         if p.id == id:
@@ -54,3 +54,13 @@ def delete(id:int):
             return products.pop(index)
     raise HTTPException(status_code=404, detail='Not found')
 
+@app.post('/upload/')
+async def uploadfile(files : UploadFile):
+    try:
+        for file in files:
+            file_path = f"/home/my/Documents/{file.filename}"
+            with open (file_path, 'wb') as f:
+                f.write(file.file.read())
+                return {'message': 'file saved successfully'}
+    except Exception as e:
+        return {'message': e.args}
